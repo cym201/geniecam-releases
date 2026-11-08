@@ -92,6 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 });
 
+// 다운로드 버튼: 최신 릴리스의 설치 파일 주소를 받아 누르면 바로 내려받게 함.
+// 설치 파일 이름에 버전이 들어가므로 주소를 고정하지 않음 (새 버전을 올려도 웹페이지를 고칠 필요 없음).
+// 주소를 받지 못하면 원래 링크(릴리스 페이지)를 그대로 씀
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('a[data-latest-installer]');
+  if (!buttons.length) return;
+  fetch('https://api.github.com/repos/cym201/geniecam-releases/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+    .then(response => response.ok ? response.json() : Promise.reject(new Error('HTTP ' + response.status)))
+    .then(release => {
+      const asset = (release.assets || []).find(a => /^GenieCamPro-Setup-.*\.exe$/i.test(a.name));
+      if (!asset) throw new Error('설치 파일 없음');
+      buttons.forEach(button => {
+        button.href = asset.browser_download_url;
+        button.removeAttribute('target');  // 새 탭 없이 바로 내려받음
+        button.title = asset.name;
+      });
+    })
+    .catch(error => console.warn('최신 설치 파일 주소를 받지 못해 릴리스 페이지로 연결합니다:', error));
+});
+
 // 주소에 #위치가 있으면(예: 지니캠 도움말 버튼의 #manual) 사진·글꼴이 다 온 뒤 그 위치로 한 번 정확히 맞춤.
 // 처음 열 때 부드러운 스크롤이 켜져 있으면 로드 도중 시작한 스크롤 애니메이션이 페이지가 길어진 뒤에도
 // 이어져 위치가 어긋나므로, 부드러운 스크롤은 위치를 맞춘 다음에 켬 (메뉴로 이동할 때만 부드럽게)
