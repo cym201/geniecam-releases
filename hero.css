@@ -1,6 +1,6 @@
 /* First-screen redesign. All product imagery is supplied, unaltered screen capture. */
 :root{--hero-bg:#191b1d;--hero-muted:#abb0b5;--hero-red:#e74c3c}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
+html{scroll-padding-top:90px}html.smooth-scroll{scroll-behavior:smooth}
 body{background:var(--hero-bg)}
 .navbar{background:rgba(25,27,29,.96);height:80px;backdrop-filter:blur(16px)}
 .nav-container{max-width:1480px}

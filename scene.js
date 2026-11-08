@@ -91,3 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 });
+
+// 주소에 #위치가 있으면(예: 지니캠 도움말 버튼의 #manual) 사진·글꼴이 다 온 뒤 그 위치로 한 번 정확히 맞춤.
+// 처음 열 때 부드러운 스크롤이 켜져 있으면 로드 도중 시작한 스크롤 애니메이션이 페이지가 길어진 뒤에도
+// 이어져 위치가 어긋나므로, 부드러운 스크롤은 위치를 맞춘 다음에 켬 (메뉴로 이동할 때만 부드럽게)
+window.addEventListener('load', () => {
+  const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+  document.documentElement.classList.add('smooth-scroll');
+});
