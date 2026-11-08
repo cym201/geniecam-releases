@@ -116,7 +116,7 @@
 .gs-phones {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.18; /* 세로 여유 공간을 충분히 주어 하단 잘림 완전 방지 */
+  aspect-ratio: 1 / 1.045; /* 스마트폰 틀(1044:2000) 높이에 QR 창 자리를 더한 높이. 하단 잘림 방지 */
   perspective: 1400px;
 }
 
@@ -170,7 +170,7 @@
   left: 2%;
   top: 0; /* 두 스마트폰 상단 높이 동일하게 맞춤 */
   width: 48%;
-  aspect-ratio: 1080 / 2340;
+  aspect-ratio: 1044 / 2000; /* 주소창 없는 리모컨 화면 사진 비율 */
   transform: rotateY(8deg);
   filter: brightness(0.9);
   z-index: 2;
@@ -181,7 +181,7 @@
   right: 2%;
   top: 0; /* 두 스마트폰 상단 높이 동일하게 맞춤 */
   width: 48%;
-  aspect-ratio: 1080 / 2340;
+  aspect-ratio: 1044 / 2000; /* 주소창 없는 리모컨 화면 사진 비율 */
   transform: rotateY(-8deg);
   z-index: 5;
 }
