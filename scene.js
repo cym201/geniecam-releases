@@ -1,0 +1,93 @@
+// Perspective-map the supplied screenshots onto photographed device screens.
+// Original captures are unchanged; only the phone browser chrome is outside its viewport.
+(() => {
+  const scene = document.querySelector('.gc-desk');
+  if (!scene) return;
+  function perspective(points, width, height) {
+    const corners = [[0,0],[width,0],[width,height],[0,height]];
+    const rows = [];
+    corners.forEach(([x,y],i) => {
+      const [u,v] = points[i];
+      rows.push([x,y,1,0,0,0,-u*x,-u*y,u]);
+      rows.push([0,0,0,x,y,1,-v*x,-v*y,v]);
+    });
+    for(let col=0;col<8;col++) {
+      let pivot=col;
+      for(let r=col+1;r<8;r++) if(Math.abs(rows[r][col])>Math.abs(rows[pivot][col])) pivot=r;
+      [rows[col],rows[pivot]]=[rows[pivot],rows[col]];
+      const divisor=rows[col][col];
+      if(Math.abs(divisor)<1e-12) throw new Error('Invalid screen projection');
+      for(let c=col;c<9;c++) rows[col][c]/=divisor;
+      for(let r=0;r<8;r++) if(r!==col) {
+        const factor=rows[r][col];
+        for(let c=col;c<9;c++) rows[r][c]-=factor*rows[col][c];
+      }
+    }
+    const [a,b,c,d,e,f,g,h]=rows.map(row=>row[8]);
+    return `matrix3d(${a},${d},0,${g},${b},${e},0,${h},0,0,1,0,${c},${f},0,1)`;
+  }
+  scene.querySelector('.gc-monitor-plane').style.transform = perspective([[753,161],[1480,93],[1478,654],[748,629]],1000,632);
+  scene.querySelector('.gc-mobile-plane').style.transform = perspective([[1456,377],[1616,372],[1589,778],[1426,772]],500,868);
+  const resize = () => scene.querySelector('.gc-desk-inner').style.transform = `scale(${scene.clientWidth/1672})`;
+  new ResizeObserver(resize).observe(scene);
+  resize();
+})();
+
+// 스마트폰 듀오 및 QR코드 팝업 인터랙션:
+// - 마우스 올리거나 터치하면 해당 요소가 맨 앞으로 쑥 올라와 전체 표시
+// - 마우스 커서가 벗어나면 자동으로 원래대로 복귀하여 QR코드가 최상단이 됨
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.gs-phones');
+  if (!container) return;
+
+  const items = container.querySelectorAll('.gs-phone-back, .gs-phone-front, .gs-phone-qr-popup');
+
+  // 모바일 터치 및 클릭 대응
+  items.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      items.forEach(el => el.classList.remove('is-hover-front'));
+      item.classList.add('is-hover-front');
+    });
+  });
+
+  // 컨테이너에서 마우스 커서가 벗어나면 즉시 원래대로 복귀 (QR코드 최상단 자동 복귀)
+  container.addEventListener('mouseleave', () => {
+    items.forEach(el => el.classList.remove('is-hover-front'));
+  });
+
+  // 모바일에서 다른 곳 터치 시 원래대로 복귀
+  document.addEventListener('touchstart', (e) => {
+    if (!container.contains(e.target)) {
+      items.forEach(el => el.classList.remove('is-hover-front'));
+    }
+  }, { passive: true });
+});
+
+// 아바타 & 캠 합성 다이얼로그 상호작용:
+// - 설정창 또는 아바타 선택창을 클릭하면 해당 창이 최상단(is-top)으로 솟아오름
+// - 마우스가 벗어나거나 외부 터치 시 기본 상태로 부드럽게 복귀
+document.addEventListener('DOMContentLoaded', () => {
+  const camStage = document.querySelector('.gc-cam-stage');
+  if (!camStage) return;
+
+  const dialogs = camStage.querySelectorAll('.gc-cam-dialog');
+
+  dialogs.forEach(dialog => {
+    dialog.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dialogs.forEach(d => d.classList.remove('is-top'));
+      dialog.classList.add('is-top');
+    });
+  });
+
+  camStage.addEventListener('mouseleave', () => {
+    dialogs.forEach(d => d.classList.remove('is-top'));
+  });
+
+  document.addEventListener('touchstart', (e) => {
+    if (!camStage.contains(e.target)) {
+      dialogs.forEach(d => d.classList.remove('is-top'));
+    }
+  }, { passive: true });
+});

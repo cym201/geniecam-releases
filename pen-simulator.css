@@ -1,0 +1,415 @@
+/* ========================================================
+   지니펜 실제 프로그램 동작 웹 시뮬레이터 스타일
+   - 실제 프로그램 pencil_cursor.py 및 toolbar.py 규격 1:1 반영
+   - 그리기 바탕: 밝고 깨끗한 화이트보드 캔버스 테마
+   ======================================================== */
+.gp-sim-container {
+  position: relative;
+  background: #181a1d;
+  border: 1px solid #2f3238;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  margin: 0 0 36px;
+  user-select: none;
+}
+
+/* 상단 기능 선택 탭 바 */
+.gp-sim-tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 12px 16px;
+  background: #111315;
+  border-bottom: 1px solid #24272c;
+  scrollbar-width: thin;
+}
+.gp-sim-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+.gp-sim-tabs::-webkit-scrollbar-thumb {
+  background: #33373e;
+  border-radius: 2px;
+}
+.gp-sim-tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #9da4aa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.gp-sim-tab:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+.gp-sim-tab.active {
+  background: rgba(231, 76, 60, 0.16);
+  border-color: #e74c3c;
+  color: #ff8579;
+}
+.gp-sim-tab .gp-tab-num {
+  font-size: 11px;
+  padding: 1px 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+.gp-sim-tab.active .gp-tab-num {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* [밝은 그리기 바탕] 메인 캔버스 스테이지 */
+.gp-sim-stage {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: #f8f9fb;
+  overflow: hidden;
+}
+
+/* 밝은 캔버스 모눈 그리드 (연한 그레이 격자) */
+.gp-sim-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+/* 실제 HTML5 Canvas 레이어 */
+.gp-sim-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* [실제 프로그램 규격 1:1] 지니펜 실제 판서 툴바 (업로드 이미지 2와 100% 동일) */
+.gp-sim-toolbar {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  pointer-events: none;
+}
+.gp-real-toolbar-wrap {
+  position: relative;
+  width: 459px;
+  height: 39px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+  background: #222428;
+}
+.gp-real-toolbar-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* 도구 선택 활성화 하이라이트 박스 (부드러운 좌우 이동 애니메이션) */
+.gp-tool-active-box {
+  position: absolute;
+  top: 2px;
+  left: 70px; /* 기본 펜 버튼 위치 (인덱스 2) */
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  transition: left 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* 5번째 팔레트 버튼 우측 하단 실제 원형 컬러 칩 도트 */
+.gp-palette-color-dot {
+  position: absolute;
+  top: 23px;
+  left: 164px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e74c3c;
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  transition: background-color 0.2s ease;
+}
+
+/* [위치 조정] 좌측 하단: 마우스/키보드 표시기와 높이를 맞추어 그래픽 가림 방지 */
+.gp-sim-info {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  max-width: 380px;
+  z-index: 20;
+  pointer-events: none;
+}
+.gp-info-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #e74c3c;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
+}
+.gp-info-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1c20;
+  margin-bottom: 6px;
+  letter-spacing: -0.03em;
+}
+.gp-info-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #3f444e;
+  word-break: keep-all;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 우측 하단: [임시 입력 표시기 규격 완벽 재현] 키보드 & 마우스 모니터 */
+.gp-input-monitor {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+  pointer-events: none;
+  background: rgba(24, 26, 31, 0.92);
+  backdrop-filter: blur(12px);
+  padding: 12px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+/* 키보드 키 배지 (Ctrl, Shift, Alt) */
+.gp-key-badges {
+  display: flex;
+  gap: 6px;
+}
+.gp-key-badge {
+  width: 48px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Pretendard", "맑은 고딕", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #2d3037;
+  color: #9095a0;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+/* 키가 눌렸을 때 (input_display.py: #bd514a / #f5aaa2 테두리) */
+.gp-key-badge.active {
+  background: #bd514a;
+  border-color: #f5aaa2;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(237, 118, 106, 0.6);
+  transform: translateY(-2px);
+}
+
+/* 마우스 바디 (input_display.py: 59x86 규격) */
+.gp-mouse-box {
+  position: relative;
+  width: 59px;
+  height: 86px;
+  background: #41414a;
+  border: 1.8px solid #dad9e1;
+  border-radius: 28px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 좌/우 버튼 분할 */
+.gp-mouse-btn-left,
+.gp-mouse-btn-right {
+  position: absolute;
+  top: 0;
+  width: 28px;
+  height: 32px;
+  background: #696973;
+  transition: background-color 0.12s ease;
+}
+.gp-mouse-btn-left {
+  left: 0;
+  border-right: 1px solid #b9b9c3;
+  border-bottom: 1px solid #b9b9c3;
+}
+.gp-mouse-btn-right {
+  right: 0;
+  border-bottom: 1px solid #b9b9c3;
+}
+/* 마우스 버튼 눌림 (input_display.py: #ed766a) */
+.gp-mouse-btn-left.active,
+.gp-mouse-btn-right.active {
+  background: #ed766a;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* 마우스 휠 (input_display.py: 7x18 규격) */
+.gp-mouse-wheel {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 18px;
+  background: #dddde4;
+  border-radius: 3.5px;
+  transition: all 0.15s ease;
+  z-index: 5;
+}
+/* 휠 회전 중 (input_display.py: #f2c66d) */
+.gp-mouse-wheel.active {
+  background: #f2c66d;
+  box-shadow: 0 0 8px #f2c66d;
+}
+
+/* 휠 회전 방향 화살표 (input_display.py: #f2c66d ↑/↓) */
+.gp-wheel-indicator {
+  position: absolute;
+  right: -24px;
+  top: 28px;
+  color: #f2c66d;
+  font-size: 16px;
+  font-weight: 800;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.15s ease;
+}
+.gp-wheel-indicator.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 하단 인터랙션 컨트롤 바 */
+.gp-sim-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #111315;
+  border-top: 1px solid #24272c;
+}
+.gp-sim-progress-track {
+  flex: 1;
+  height: 4px;
+  background: #25282e;
+  border-radius: 2px;
+  margin: 0 20px;
+  overflow: hidden;
+  position: relative;
+}
+.gp-sim-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #e74c3c, #ff7961);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+.gp-sim-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gp-ctrl-btn {
+  background: #1f2228;
+  border: 1px solid #333740;
+  color: #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.gp-ctrl-btn:hover {
+  background: #2b2f38;
+  color: #ffffff;
+  border-color: #4a505c;
+}
+.gp-ctrl-play.playing {
+  color: #ff7961;
+}
+
+/* 모바일 반응형 처리 */
+@media (max-width: 900px) {
+  .gp-sim-stage {
+    height: 440px;
+  }
+  .gp-sim-toolbar {
+    top: 12px;
+    transform: translateX(-50%) scale(0.88);
+  }
+  .gp-input-monitor {
+    right: 14px;
+    bottom: 14px;
+    padding: 8px 12px;
+    transform: scale(0.82);
+    transform-origin: bottom right;
+  }
+  .gp-sim-info {
+    bottom: 14px;
+    left: 14px;
+    max-width: 280px;
+  }
+  .gp-info-title {
+    font-size: 17px;
+  }
+  .gp-info-desc {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}
+@media (max-width: 650px) {
+  .gp-sim-toolbar {
+    top: 8px;
+    transform: translateX(-50%) scale(0.70);
+  }
+  .gp-sim-stage {
+    height: 420px;
+  }
+  .gp-sim-info {
+    bottom: 12px;
+    left: 12px;
+    max-width: 210px;
+  }
+  .gp-input-monitor {
+    right: 10px;
+    bottom: 10px;
+    transform: scale(0.72);
+  }
+}

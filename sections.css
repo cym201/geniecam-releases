@@ -1,0 +1,667 @@
+/* 첫 화면 아래 섹션: 차콜 바탕, 구리색 포인트, 가운데 큰 제목, 둥근 카드와 실제 캡처 합성 */
+:root{--gs-bg:#121416;--gs-alt:#191b1d;--gs-card:#1e2022;--gs-line:#2f3235;--gs-text:#f5f5f3;--gs-body:#c3c7ca;--gs-muted:#9da4aa;--gs-accent:#a35c36;--gs-accent-hover:#b56a41;--gs-accent-text:#e0a07a;--gs-radius:20px;--gs-shadow:0 24px 60px #000a}
+/* 첫 화면 버튼도 같은 포인트 색으로 맞춤 */
+.gc-primary,.navbar .btn-primary{background:var(--gs-accent);border-color:var(--gs-accent);border-radius:999px}
+.gc-primary:hover,.navbar .btn-primary:hover{background:var(--gs-accent-hover);border-color:var(--gs-accent-hover);transform:none;box-shadow:none}
+.gs-main{background:var(--gs-bg);color:var(--gs-text);overflow:hidden}
+.gs-wrap{max-width:1200px;margin:0 auto;padding:0 48px}
+.gs-section{position:relative;padding:110px 0;scroll-margin-top:0}
+.gs-alt{background:var(--gs-alt)}
+.gs-title{font-size:clamp(30px,3.6vw,52px);font-weight:750;line-height:1.28;letter-spacing:-.05em;text-align:center;margin-bottom:60px;word-break:keep-all}
+.gs-title .gc-beta{font-size:12px;letter-spacing:0}
+.gs-lead{font-size:18px;line-height:1.8;color:var(--gs-body);margin-bottom:28px;word-break:keep-all}
+.gs-note{font-size:13px;color:var(--gs-muted);margin:16px 0 28px;word-break:keep-all}
+.gs-main kbd{display:inline-block;padding:3px 8px;font:600 12px/1.4 inherit;color:#fff;background:#2a2c2f;border:1px solid #484c50;border-radius:5px;white-space:nowrap}
+.gs-main code{font-family:Consolas,monospace;font-size:.92em;color:#f5f5f3;background:#2a2c2f;padding:2px 6px;border-radius:4px}
+.gs-main a:focus-visible,.gs-chapter summary:focus-visible{outline:3px solid var(--gs-accent-text);outline-offset:4px}
+/* 모서리의 얇은 사선 */
+.gs-deco:before{content:"";position:absolute;right:-40px;top:40px;width:240px;height:240px;pointer-events:none;background:repeating-linear-gradient(135deg,transparent 0 22px,#a35c3640 22px 23px);-webkit-mask:linear-gradient(225deg,#000,transparent 70%);mask:linear-gradient(225deg,#000,transparent 70%)}
+.gs-deco-left:before{right:auto;left:-40px;transform:scaleX(-1)}
+
+/* 이미지 카드 */
+.gs-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.gs-card{background:var(--gs-card);border:1px solid var(--gs-line);border-radius:var(--gs-radius);padding:18px 18px 28px;min-width:0}
+.gs-card-shot{height:190px;border-radius:12px;overflow:hidden;background:#0d0e10;margin-bottom:22px;perspective:900px}
+.gs-card-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.gs-card h3{font-size:13px;font-weight:600;color:var(--gs-accent-text);margin:0 6px 12px}
+.gs-card p{font-size:14px;line-height:1.8;color:var(--gs-body);margin:0 6px;word-break:keep-all}
+.gs-card .gs-before{font-size:20px;font-weight:650;line-height:1.45;letter-spacing:-.03em;color:var(--gs-text);margin-bottom:12px}
+.gs-cards-text .gs-card{padding:28px}
+.gs-cards-text i{font-size:22px;color:var(--gs-accent-text);margin-bottom:16px;display:block}
+.gs-cards-text h3{font-size:18px;font-weight:650;letter-spacing:-.03em;color:var(--gs-text);margin:0 0 10px;word-break:keep-all}
+.gs-cards-text p{margin:0;color:var(--gs-muted)}
+
+/* 책상 합성 */
+.gs-stage{position:relative;margin:0 0 28px}
+.gs-stage-photo{display:block;width:100%;height:auto;border-radius:var(--gs-radius);border:1px solid var(--gs-line);box-shadow:var(--gs-shadow)}
+.gs-float{position:absolute;height:auto;border-radius:6px;box-shadow:var(--gs-shadow)}
+.gs-float-bar{left:3%;bottom:7%;width:min(525px,44%)}
+.gs-float-quick{left:3%;bottom:15%;width:min(194px,17%)}
+.gs-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.gs-panel{background:var(--gs-card);border:1px solid var(--gs-line);border-radius:var(--gs-radius);padding:30px 32px}
+.gs-sub{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:650;margin-bottom:16px}
+.gs-sub i{color:var(--gs-accent-text);width:20px;text-align:center}
+.gs-inputs>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px;align-items:center;padding:13px 0;border-top:1px solid var(--gs-line)}
+.gs-inputs dt{font-size:14px;color:var(--gs-text);word-break:keep-all}
+.gs-inputs dd{font-size:14px;color:var(--gs-body);word-break:keep-all}
+
+/* 스마트폰 두 대 & QR코드 팝업 3D 입체 쇼케이스 */
+.gs-split-phone {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+}
+.gs-phones {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  perspective: 1400px;
+}
+
+/* 프리미엄 스마트폰 프레임 */
+.gs-phone {
+  position: absolute;
+  overflow: hidden;
+  background: #111215;
+  border: 7px solid #2e3138;
+  outline: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 36px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75);
+}
+.gs-phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* 스마트폰 상단 뱃지 태그 */
+.gs-phone-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 20, 24, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c9d1d9;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  z-index: 10;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.gs-phone-badge-active {
+  background: rgba(231, 76, 60, 0.9);
+  border-color: #ff8579;
+  color: #ffffff;
+}
+
+/* ========================================================
+   스마트폰 듀오 & QR코드 쇼케이스
+   - 기본 상태: QR코드가 최상단(맨 앞)에 직각 배치
+   - 마우스 올리거나 클릭 시: 해당 요소가 맨 앞으로 쑥 올라와 전체 표시
+   - 커서 벗어나면: 원래대로 QR코드가 최상단으로 자동 복귀
+   ======================================================== */
+.gs-split-phone {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 50px;
+  align-items: center;
+}
+.gs-phones {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.18; /* 세로 여유 공간을 충분히 주어 하단 잘림 완전 방지 */
+  perspective: 1400px;
+}
+
+/* 프리미엄 스마트폰 프레임 공통 */
+.gs-phone {
+  position: absolute;
+  overflow: hidden;
+  background: #111215;
+  border: 6px solid #2e3138;
+  outline: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 34px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+}
+.gs-phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* 스마트폰 상단 뱃지 태그 */
+.gs-phone-badge {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 20, 24, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c9d1d9;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  z-index: 10;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.gs-phone-badge-active {
+  background: rgba(231, 76, 60, 0.9);
+  border-color: #ff8579;
+  color: #ffffff;
+}
+
+/* 1. 뒤쪽 스마트폰 (리모컨 & 믹서/녹화 화면) - 높이 수평 일치 */
+.gs-phone-back {
+  left: 2%;
+  top: 0; /* 두 스마트폰 상단 높이 동일하게 맞춤 */
+  width: 48%;
+  aspect-ratio: 1080 / 2340;
+  transform: rotateY(8deg);
+  filter: brightness(0.9);
+  z-index: 2;
+}
+
+/* 2. 앞쪽 스마트폰 (판서 화면) - 상하 높이와 크기를 녹화 화면과 1:1 완벽 일치 */
+.gs-phone-front {
+  right: 2%;
+  top: 0; /* 두 스마트폰 상단 높이 동일하게 맞춤 */
+  width: 48%;
+  aspect-ratio: 1080 / 2340;
+  transform: rotateY(-8deg);
+  z-index: 5;
+}
+
+/* 3. 실제 프로그램의 QR코드 팝업 창 (가운데에서 세로 직각, 하단 라인 칼일치) */
+.gs-phone-qr-popup {
+  position: absolute;
+  left: 50%;
+  bottom: 0; /* [핵심] 스마트폰 하단 기준선과 완벽하게 수평 일치 */
+  transform: translateX(-50%); /* 100% 직각 수직 정중앙 */
+  transform-origin: bottom center;
+  width: min(190px, 40%);
+  background: #1e2025;
+  border: 1px solid #484c56;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 15; /* 평상시 최상단 */
+  user-select: none;
+}
+.gs-phone-qr-popup img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.gs-qr-badge {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff9f43;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.gs-qr-badge i {
+  color: var(--gs-accent-text);
+  margin-right: 3px;
+}
+
+/* ========================================================
+   [호버 및 클릭 시 최상단으로 솟아오르는 인터랙션]
+   - 커서가 올라가면 Z-Index 30으로 즉시 맨 앞으로 튀어나옴
+   - 커서가 벗어나면 자동으로 원래대로 복귀하여 QR코드가 최상단이 됨
+   ======================================================== */
+
+/* 리모컨 폰 호버/활성화 ➔ 최상단으로 쑥 올라와 전체 표시 */
+.gs-phone-back:hover,
+.gs-phone-back.is-hover-front {
+  z-index: 30 !important;
+  filter: brightness(1) !important;
+  transform: rotateY(0deg) rotateZ(0deg) scale(1.05) translateY(-6px) !important;
+  box-shadow: 0 35px 85px rgba(0, 0, 0, 0.95), 0 0 0 2px var(--gs-accent) !important;
+}
+
+/* 판서 폰 호버/활성화 ➔ 최상단으로 쑥 올라와 전체 표시 */
+.gs-phone-front:hover,
+.gs-phone-front.is-hover-front {
+  z-index: 30 !important;
+  filter: brightness(1) !important;
+  transform: rotateY(0deg) rotateZ(0deg) scale(1.05) translateY(-6px) !important;
+  box-shadow: 0 35px 85px rgba(0, 0, 0, 0.95), 0 0 0 2px var(--gs-accent) !important;
+}
+
+/* QR코드 팝업 호버/활성화 ➔ 직각 상태 그대로 정중앙에서 더 크게 확대 */
+.gs-phone-qr-popup:hover,
+.gs-phone-qr-popup.is-hover-front {
+  z-index: 35 !important;
+  transform: translateX(-50%) scale(1.15) translateY(-4px) !important;
+  box-shadow: 0 35px 85px rgba(0, 0, 0, 0.98), 0 0 0 2px var(--gs-accent) !important;
+  border-color: var(--gs-accent);
+}
+
+.gs-steps{list-style:none;counter-reset:gs;display:grid;gap:14px}
+.gs-steps li{counter-increment:gs;position:relative;padding-left:42px;font-size:15px;line-height:1.75;color:var(--gs-body);word-break:keep-all}
+.gs-steps li:before{content:counter(gs);position:absolute;left:0;top:0;width:26px;height:26px;background:var(--gs-accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
+.gs-steps strong,.gs-points strong,.gs-defs strong{color:var(--gs-text);font-weight:650}
+.gs-points{list-style:none}
+.gs-points li{display:grid;grid-template-columns:80px minmax(0,1fr);gap:16px;padding:13px 0;border-top:1px solid var(--gs-line);font-size:14px;line-height:1.7;color:var(--gs-body);word-break:keep-all}
+
+
+
+/* 실제 창 갤러리 */
+.gs-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(200px,auto);gap:16px}
+.gs-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin:0;padding:24px;min-width:0;border-radius:var(--gs-radius);border:1px solid var(--gs-line);background:radial-gradient(circle at 50% 35%,#34302d,#191b1d 72%)}
+.gs-tile img{display:block;max-width:100%;height:auto;border-radius:8px;box-shadow:0 14px 34px #000b}
+.gs-tile figcaption{font-size:12px;color:var(--gs-muted)}
+.gs-tile-main{grid-column:span 1}
+.gs-tile-mixer{grid-row:span 2}
+.gs-tile-video{grid-column:span 2;grid-row:span 2}
+.gs-tile-wide{grid-column:span 2}
+
+/* 상세 사용법, 질문 */
+.gs-chapter{background:var(--gs-card);border:1px solid var(--gs-line);border-radius:14px;margin-bottom:10px;padding:0 26px}
+.gs-chapter summary{display:flex;align-items:center;gap:10px;padding:20px 34px 20px 0;position:relative;font-size:17px;font-weight:650;letter-spacing:-.025em;cursor:pointer;list-style:none;word-break:keep-all}
+.gs-chapter summary::-webkit-details-marker{display:none}
+.gs-chapter summary:after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:300;color:var(--gs-muted)}
+.gs-chapter[open] summary:after{content:"−"}
+.gs-chapter summary:hover{color:#fff}
+.gs-chapter summary:hover:after{color:var(--gs-accent-text)}
+.gs-chapter summary .gc-beta{margin-left:0;font-size:11px}
+.gs-chapter-body{padding:6px 0 30px;display:grid;gap:32px;font-size:15px;line-height:1.8;color:var(--gs-body);word-break:keep-all}
+.gs-chapter-body:has(>.gs-capture-col){grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.gs-chapter-text{display:grid;gap:24px;min-width:0}
+.gs-capture-col{display:grid;gap:16px;min-width:0}
+.gs-capture{margin:0;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:14px;background:#ffffff;border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 30px rgba(0,0,0,0.25),0 2px 8px rgba(0,0,0,0.08)}
+.gs-capture img{display:block;width:auto;height:auto;max-width:100%;max-height:280px;object-fit:contain;border-radius:6px;margin:0 auto}
+.gs-capture figcaption{font-size:12px;color:#475569;text-align:center;font-weight:600}
+.gs-defs>div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:18px;padding:11px 0;border-top:1px solid var(--gs-line)}
+.gs-defs>div:first-child{border-top:0;padding-top:0}
+.gs-defs dt{font-size:14px;font-weight:600;color:var(--gs-text);word-break:keep-all}
+.gs-defs dd{font-size:14px;line-height:1.8;color:var(--gs-body)}
+/* 펼친 질문은 구리색으로 강조 */
+#qna .gs-wrap{max-width:900px}
+#qna .gs-chapter[open]{background:#5a3522;border-color:var(--gs-accent)}
+#qna .gs-chapter[open] .gs-chapter-body{color:#f0e4dc}
+#qna .gs-chapter[open] summary:after{color:#fff}
+#qna kbd{background:#3a2316;border-color:#8a5a3e}
+
+/* 첫 실행 */
+#install-guide .gs-lead{text-align:center}
+.gs-steps-row{grid-template-columns:repeat(3,1fr);gap:20px}
+.gs-steps-row li{background:var(--gs-card);border:1px solid var(--gs-line);border-radius:var(--gs-radius);padding:24px 24px 24px 62px}
+.gs-steps-row li:before{left:22px;top:26px}
+
+/* ==========================================================================
+   지니캠 프로 모던 프리미엄 CTA & 다크 푸터
+   ========================================================================== */
+.gc-final-cta {
+  padding: 40px 0 80px;
+  background: var(--gs-bg, #0c0e14);
+}
+
+.gc-cta-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #181b24 0%, #11131a 100%);
+  border: 1px solid rgba(231, 76, 60, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(231, 76, 60, 0.08);
+  padding: 64px 48px;
+  text-align: center;
+}
+
+.gc-cta-glow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(231, 76, 60, 0.28) 0%, rgba(231, 76, 60, 0) 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.gc-cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.gc-cta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ff6b5a;
+  background: rgba(231, 76, 60, 0.12);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.gc-cta-title {
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  margin-bottom: 18px;
+  word-break: keep-all;
+}
+
+.gc-cta-desc {
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.65;
+  color: #cbd5e1;
+  margin-bottom: 34px;
+  word-break: keep-all;
+}
+
+.gc-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 16px 36px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.22s ease-in-out;
+}
+
+.btn-cta-primary:hover {
+  background: linear-gradient(135deg, #ff5742 0%, #d63020 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(231, 76, 60, 0.55), 0 0 25px rgba(231, 76, 60, 0.35);
+  color: #ffffff;
+}
+
+.gc-cta-meta {
+  font-size: 13px;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 세련된 모던 다크 푸터 */
+.gc-modern-footer {
+  background: #08090d;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 60px 0 40px;
+  color: #94a3b8;
+}
+
+.gc-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.gc-footer-brand {
+  max-width: 480px;
+}
+
+.gc-footer-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.gc-footer-tagline {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94a3b8;
+  word-break: keep-all;
+}
+
+.gc-footer-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 60px;
+}
+
+.gc-footer-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.gc-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gc-footer-col a {
+  font-size: 14px;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.gc-footer-col a:hover {
+  color: #ffffff;
+}
+
+.gc-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.gc-footer-specs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media(max-width:1000px){
+  .gs-split-phone{grid-template-columns:1fr;gap:44px}
+  .gs-phones{max-width:520px;width:100%;margin:0 auto}
+  .gs-cards,.gs-duo{grid-template-columns:1fr}
+  .gs-card-shot{height:clamp(150px,34vw,300px)}
+  .gs-gallery{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
+  .gs-tile,.gs-tile-main,.gs-tile-mixer,.gs-tile-video{grid-column:span 1;grid-row:auto}
+  .gs-tile-video,.gs-tile-wide{grid-column:span 2}
+  .gs-chapter-body:has(>.gs-capture-col){grid-template-columns:1fr}
+  .gs-steps-row{grid-template-columns:1fr}
+}
+@media(max-width:800px){
+  .gs-wrap{padding:0 28px}
+  .gs-section{padding:72px 0}
+  .gs-title{margin-bottom:38px}
+  .gc-cam-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+    margin-bottom: 38px;
+  }
+  .gc-cam-base {
+    width: 100%;
+    margin: 0;
+  }
+  .gc-cam-dialog {
+    position: static;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    transform: none !important;
+  }
+  .gc-cam-dialog-settings {
+    width: min(480px, 100%);
+  }
+  .gc-cam-dialog-select {
+    width: min(540px, 100%);
+  }
+  .gs-float-quick{display:none}
+  .gs-float-bar{position:static;display:block;width:100%;margin-top:14px}
+  .gc-cta-card {
+    padding: 48px 28px;
+  }
+  .gc-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .gc-footer-nav {
+    justify-content: flex-start;
+    gap: 48px;
+  }
+}
+@media(max-width:540px){
+  .gs-wrap{padding:0 18px}
+  .gs-panel{padding:22px 20px}
+  .gs-chapter{padding:0 16px}
+  .gs-capture{padding:14px}
+  .gs-defs>div{grid-template-columns:1fr;gap:4px}
+  .gs-points li{grid-template-columns:1fr;gap:2px}
+  .gs-chapter summary{font-size:15px}
+  .gs-phone{border-width:5px;border-radius:24px}
+  .gs-gallery{grid-template-columns:1fr}
+  .gs-tile,.gs-tile-video,.gs-tile-wide{grid-column:span 1}
+  .gs-tile{padding:18px}
+  .gc-final-cta {
+    padding: 20px 0 60px;
+  }
+  .gc-cta-card {
+    padding: 36px 18px;
+    border-radius: 18px;
+  }
+  .btn-cta-primary {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+  .gc-footer-nav {
+    gap: 32px;
+  }
+  .gc-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+
+/* 아바타 및 캠 합성 세련된 입체 레이아웃 */
+.gc-cam-stage {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto 56px;
+  padding: 16px 0 32px;
+}
+.gc-cam-stage::before {
+  content: "";
+  position: absolute;
+  left: 15%;
+  top: 8%;
+  width: 70%;
+  height: 75%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.04) 0%, rgba(52, 152, 219, 0.04) 45%, transparent 70%);
+  filter: blur(52px);
+  pointer-events: none;
+  z-index: 0;
+}
+.gc-cam-base {
+  position: relative;
+  z-index: 1;
+  width: 82%;
+  margin: 0 auto 0 2%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 3px 12px rgba(0, 0, 0, 0.45);
+  background: #18191c;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.gc-cam-base:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.85);
+}
+.gc-cam-base img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.gc-cam-dialog {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.88));
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), z-index 0.05s;
+}
+.gc-cam-dialog img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.gc-cam-dialog:hover,
+.gc-cam-dialog.is-top {
+  transform: translateY(-8px) scale(1.02);
+  z-index: 30 !important;
+  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.98));
+}
+/* 우측 상단 설정창: 크기를 31%로 컴팩트하게 맞춰 우측 하단 고양이 아바타가 시원하게 노출되도록 배치 */
+.gc-cam-dialog-settings {
+  right: 0;
+  top: 1%;
+  width: 31%;
+  z-index: 10;
+}
+/* 좌측 하단 아바타 선택창: 메인 슬라이드 왼쪽 아래에 안정감 있게 오버랩 */
+.gc-cam-dialog-select {
+  left: 0;
+  bottom: -4%;
+  width: 46%;
+  z-index: 12;
+}
