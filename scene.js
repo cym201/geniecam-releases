@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 다운로드 버튼: 최신 릴리스의 설치 파일 주소를 받아 누르면 바로 내려받게 함.
 // 설치 파일 이름에 버전이 들어가므로 주소를 고정하지 않음 (새 버전을 올려도 웹페이지를 고칠 필요 없음).
+// 버튼마다 받을 설치 파일 앞부분을 data-latest-installer에 적음 (비어 있으면 지니캠, "GeniePen-Setup-"이면 지니펜 단독).
 // 주소를 받지 못하면 원래 링크(릴리스 페이지)를 그대로 씀
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('a[data-latest-installer]');
@@ -101,9 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('https://api.github.com/repos/cym201/geniecam-releases/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
     .then(response => response.ok ? response.json() : Promise.reject(new Error('HTTP ' + response.status)))
     .then(release => {
-      const asset = (release.assets || []).find(a => /^GenieCamPro-Setup-.*\.exe$/i.test(a.name));
-      if (!asset) throw new Error('설치 파일 없음');
       buttons.forEach(button => {
+        const prefix = button.dataset.latestInstaller || 'GenieCamPro-Setup-';
+        const asset = (release.assets || []).find(a => a.name.startsWith(prefix) && /\.exe$/i.test(a.name));
+        if (!asset) {
+          console.warn('이 릴리스에 설치 파일이 없어 릴리스 페이지로 연결합니다:', prefix);
+          return;
+        }
         button.href = asset.browser_download_url;
         button.removeAttribute('target');  // 새 탭 없이 바로 내려받음
         button.title = asset.name;
