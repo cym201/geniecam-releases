@@ -297,6 +297,8 @@
 .gs-defs>div:first-child{border-top:0;padding-top:0}
 .gs-defs dt{font-size:14px;font-weight:600;color:var(--gs-text);word-break:keep-all}
 .gs-defs dd{font-size:14px;line-height:1.8;color:var(--gs-body)}
+.gs-defs a{color:var(--gs-accent-text);text-underline-offset:3px}
+.gs-defs a:hover{color:#f0c2a4}
 /* 펼친 질문은 구리색으로 강조 */
 #qna .gs-wrap{max-width:900px}
 #qna .gs-chapter[open]{background:#5a3522;border-color:var(--gs-accent)}

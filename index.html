@@ -438,6 +438,45 @@
             border-top: none;
             padding-top: 4px;
           }
+          /* 각 장 맨 위 작동 영상 (여러 개면 세로로 하나씩) */
+          .gs-demo {
+            display: grid;
+            gap: 28px;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 4px 0 28px;
+          }
+          .gs-demo figure {
+            margin: 0;
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+          }
+          .gs-demo video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 14px;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+          }
+          .gs-demo figcaption {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gs-muted);
+          }
+          .gs-demo figcaption i {
+            color: var(--gs-accent-text);
+            margin-right: 6px;
+          }
+          .gs-demo + .gs-manual-row {
+            padding-top: 24px;
+          }
+          /* 이미지 없이 설명만 있는 행은 전체 폭 사용 */
+          .gs-manual-row.gs-text-only {
+            grid-template-columns: 1fr;
+          }
           /* 이미지 쇼케이스 컨테이너: 원본 이미지의 흰색 여백과 100% 하나로 일체화되는 순수 화이트 캔버스 */
           .gs-capture {
             margin: 0;
@@ -497,6 +536,18 @@
           <summary><i class="fa-solid fa-vector-square" style="color: #e74c3c;"></i> 1. 녹화 영역창 (오버레이) 설명</summary>
           <div class="gs-chapter-body" style="display: block; padding-bottom: 16px;">
             
+            <!-- 작동 영상: 실행 및 기본 녹화, 프로그램창 맞추기 -->
+            <div class="gs-demo">
+              <figure>
+                <video src="소스/영상/지니캠 실행및기본녹화.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>실행하고 기본 녹화하기</figcaption>
+              </figure>
+              <figure>
+                <video src="소스/영상/프로그램창 맞추기.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>녹화 영역을 프로그램 창에 맞추기</figcaption>
+              </figure>
+            </div>
+
             <!-- 항목 1-1: 녹화영역창 오버레이.png -->
             <div class="gs-manual-row">
               <figure class="gs-capture">
@@ -642,6 +693,14 @@
           <summary><i class="fa-solid fa-volume-high" style="color: #e74c3c;"></i> 3. 오디오 믹서창 (Audio Mixer &amp; DSP 이펙터 랙) 설명</summary>
           <div class="gs-chapter-body" style="display: block; padding-bottom: 16px;">
             
+            <!-- 작동 영상: 오디오 믹서창 -->
+            <div class="gs-demo">
+              <figure>
+                <video src="소스/영상/오디오 믹서창.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>오디오 믹서창 사용하기</figcaption>
+              </figure>
+            </div>
+
             <!-- 항목 3-1: 오디오 믹서창.png -->
             <div class="gs-manual-row">
               <figure class="gs-capture">
@@ -737,6 +796,14 @@
           <summary><i class="fa-solid fa-pen-nib" style="color: #e74c3c;"></i> 4. 실시간 판서 도구 (지니펜, Genie Pen) 설명</summary>
           <div class="gs-chapter-body" style="display: block; padding-bottom: 16px;">
             
+            <!-- 작동 영상: 판서 기본 기능 -->
+            <div class="gs-demo">
+              <figure>
+                <video src="소스/영상/판서 기본기능.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>판서 기본 기능</figcaption>
+              </figure>
+            </div>
+
             <!-- 항목 4-1: 판서메뉴.png -->
             <div class="gs-manual-row">
               <figure class="gs-capture">
@@ -812,6 +879,14 @@
           <summary><i class="fa-solid fa-mobile-screen-button" style="color: #e74c3c;"></i> 5. 스마트폰 무선 리모컨 (Remote Control) 설명</summary>
           <div class="gs-chapter-body" style="display: block; padding-bottom: 16px;">
             
+            <!-- 작동 영상: 스마트폰 QR 리모컨 -->
+            <div class="gs-demo">
+              <figure>
+                <video src="소스/영상/스마트폰 QR 리모콘.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>QR 코드로 스마트폰 리모컨 연결하기</figcaption>
+              </figure>
+            </div>
+
             <!-- 항목 5-1: 스마트폰 메인창과 오디오 믹서창.png -->
             <div class="gs-manual-row">
               <figure class="gs-capture">
@@ -912,6 +987,14 @@
           <summary><i class="fa-solid fa-camera-rotate" style="color: #e74c3c;"></i> 7. 환경설정: 캠 합성 탭 &amp; 스마트폰 카메라</summary>
           <div class="gs-chapter-body" style="display: block; padding-bottom: 16px;">
             
+            <!-- 작동 영상: 캠 합성과 아바타 -->
+            <div class="gs-demo">
+              <figure>
+                <video src="소스/영상/지니캠 캡합성 아바타.mp4#t=0.1" controls muted preload="metadata" playsinline></video>
+                <figcaption><i class="fa-solid fa-circle-play"></i>캠 합성과 아바타 사용하기</figcaption>
+              </figure>
+            </div>
+
             <!-- 항목 7-1: 메인설정창-캠합성.png -->
             <div class="gs-manual-row">
               <figure class="gs-capture">
@@ -1035,6 +1118,45 @@
                       • Android 12 이상이 필요합니다.<br />
                       • 휴대폰 잠금을 풀어두고, 카메라를 쓰는 다른 앱은 종료해주세요.<br />
                       • 스마트폰을 캠으로 사용 시 거리가 어느 정도 떨어져 있게 되므로, 마이크는 추가 장비로 연결하여 사용하시는 것을 추천드립니다.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+
+            <!-- 항목 7-6-1: USB 연결 시 휴대폰이 인식되지 않을 때 (이미지 없음) -->
+            <div class="gs-manual-row gs-text-only">
+              <div class="gs-chapter-text">
+                <dl class="gs-defs">
+                  <div>
+                    <dt>캠 목록에 휴대폰이 안 나올 때</dt>
+                    <dd>
+                      PC에서 휴대폰 파일은 열리는데 지니캠 캠 목록에 나오지 않는다면, 그 PC에 <strong>휴대폰 USB 드라이버(ADB 드라이버)</strong>가 없는 경우가 대부분입니다.
+                      파일 전송 드라이버는 Windows에 기본으로 들어 있지만 ADB 드라이버는 따로 설치해야 해서, 같은 휴대폰이라도 어떤 PC에서는 되고 어떤 PC에서는 안 될 수 있습니다.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>드라이버 설치</dt>
+                    <dd>
+                      • <strong>갤럭시 폰:</strong> <a href="https://developer.samsung.com/android-usb-driver" target="_blank" rel="noopener">삼성 USB 드라이버</a>를 받아 실행하고 안내대로 설치합니다.<br />
+                      • <strong>그 밖의 폰:</strong> <a href="https://developer.android.com/studio/run/win-usb" target="_blank" rel="noopener">Google USB 드라이버</a>를 받아 압축을 풉니다.
+                      휴대폰을 연결한 채 <strong>장치 관리자</strong>에서 느낌표가 붙은 휴대폰 항목을 오른쪽 클릭 → <strong>드라이버 업데이트</strong> → <strong>내 컴퓨터에서 드라이버 찾아보기</strong> → 압축을 푼 폴더를 지정합니다.
+                      휴대폰 제조사에서 제공하는 USB 드라이버가 있다면 그것을 설치해도 됩니다.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>다시 연결</dt>
+                    <dd>
+                      케이블을 뽑았다 다시 꽂고, 휴대폰 화면에 뜨는 <strong>'USB 디버깅을 허용하시겠습니까?'</strong> 창에서 '이 컴퓨터에서 항상 허용'에 체크한 뒤 허용을 누릅니다. 이 창은 PC마다 한 번씩 뜹니다.<br />
+                      창이 뜨지 않으면 개발자 옵션에서 <strong>'USB 디버깅 권한 승인 취소'</strong>를 누르고 USB 디버깅을 껐다 켠 뒤 다시 연결해 주세요.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>그래도 안 될 때</dt>
+                    <dd>
+                      • 충전 전용이 아닌 데이터 전송을 지원하는 케이블인지 확인해 주세요.<br />
+                      • 본체 앞면 포트나 USB 허브 대신 본체 뒷면 포트에 직접 연결해 보세요.<br />
+                      • 휴대폰 관리·화면 미러링·안드로이드 에뮬레이터 프로그램이 켜져 있으면 연결이 충돌할 수 있으니 종료한 뒤 다시 시도해 주세요.
                     </dd>
                   </div>
                 </dl>
