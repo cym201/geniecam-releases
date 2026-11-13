@@ -306,20 +306,6 @@
 #qna .gs-chapter[open] summary:after{color:#fff}
 #qna kbd{background:#3a2316;border-color:#8a5a3e}
 
-/* 첫 실행 */
-#install-guide .gs-lead{text-align:center}
-.gs-steps-row{grid-template-columns:repeat(3,1fr);gap:20px}
-.gs-steps-row li{background:var(--gs-card);border:1px solid var(--gs-line);border-radius:var(--gs-radius);padding:24px 24px 24px 62px}
-.gs-steps-row li:before{left:22px;top:26px}
-/* "Windows의 PC 보호" 창 사진: 누를 곳을 지니캠 레드 테두리로 표시 (위치는 사진 크기 대비 비율) */
-.gs-smartscreen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:28px}
-.gs-smartscreen figure{margin:0;background:var(--gs-card);border:1px solid var(--gs-line);border-radius:var(--gs-radius);padding:18px}
-.gs-shot{position:relative;border-radius:10px;overflow:hidden}
-.gs-shot img{display:block;width:100%;height:auto}
-.gs-mark{position:absolute;border:3px solid #e74c3c;border-radius:8px;box-shadow:0 0 0 4px #e74c3c40}
-.gs-smartscreen figcaption{margin-top:14px;font-size:15px;line-height:1.7;color:var(--gs-body);text-align:center;word-break:keep-all}
-.gs-smartscreen figcaption strong{color:var(--gs-text);font-weight:650}
-
 /* ==========================================================================
    지니캠 프로 모던 프리미엄 CTA & 다크 푸터
    ========================================================================== */
@@ -612,12 +598,9 @@
   .gs-tile,.gs-tile-main,.gs-tile-mixer,.gs-tile-video{grid-column:span 1;grid-row:auto}
   .gs-tile-video,.gs-tile-wide{grid-column:span 2}
   .gs-chapter-body:has(>.gs-capture-col){grid-template-columns:1fr}
-  .gs-steps-row{grid-template-columns:1fr}
-  .gs-smartscreen{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
 }
 @media(max-width:800px){
   .gs-wrap{padding:0 28px}
-  #install-guide .gs-lead br{display:none}
   .gs-section{padding:72px 0}
   .gs-title{margin-bottom:38px}
   .gc-cam-stage {
